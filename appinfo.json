@@ -1,7 +1,7 @@
 {
     "appKeys": {},
     "capabilities": [
-        ""
+        "location"
     ],
     "companyName": "Adion",
     "longName": "MinimalFace",
@@ -38,7 +38,7 @@
     "targetPlatforms": [
         "basalt"
     ],
-    "uuid": "22e984f2-d372-4ecc-bc53-1d0c7e69c339",
+    "uuid": "73888609-56bc-49aa-9cf7-48be837beb24",
     "versionLabel": "0.2",
     "watchapp": {
         "watchface": true

@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "face_handler.h"
-
+#include "app_message.h"
+  
 //-- static globals --
 static Window *s_window;
 static GFont s_res_hoog_numbers;
@@ -10,7 +11,7 @@ static TextLayer *s_time_hr;
 static TextLayer *s_time_hr2;
 static TextLayer *s_time_min;
 static TextLayer *s_time_min2;
-static TextLayer *s_ampm;
+static TextLayer *s_weather;
 static TextLayer *s_date_year;
 static TextLayer *s_date_year2;
 static TextLayer *s_date_day;
@@ -19,12 +20,13 @@ static TextLayer *s_day_v;
 static TextLayer *s_date_day_v;
 static TextLayer *s_month_v;
 static TextLayer *s_year_v;
+static TextLayer *s_ampm;
 static TextLayer *s_battery;
 
-#define SPACE 32;
-#define Blu    GColorFromHEX(0x4FA2FE);
-#define Green  GColorFromHEX(0x006A66);
-#define Orange GColorFromHEX(0xDC571F);
+#define SPACE  32
+#define Blu    GColorFromHEX(0x4FA2FE)
+#define Green  GColorFromHEX(0x006A66)
+#define Orange GColorFromHEX(0xDC571F)
 //-- functions --
 
 static void update_daily(void)
@@ -96,7 +98,7 @@ static void update_minute(void)
   strftime(buffer, sizeof(buffer), "%M", tick_time);
   time_min[0] = buffer[0]; time_min2[0] = buffer[1];
   
-  strftime(ampm,     sizeof(ampm),     "%p", tick_time);
+  strftime(ampm, sizeof(ampm), "%p", tick_time);
   
   text_layer_set_text(s_time_hr, time_hr);
   text_layer_set_text(s_time_hr2, time_hr2);
@@ -144,8 +146,15 @@ static void update_all(void)
 
 static void time_handler(struct tm *tick_time, TimeUnits units_changed)
 {
+  static int current_day = -1;
+  
   update_minute();
-  update_daily();
+  // saves computation of day, month, year, from being calculated every minute
+  if(current_day != tick_time->tm_yday)
+  {
+    current_day = tick_time->tm_yday;
+    update_daily();
+  }
 }
 
 static void initialise_ui(void) {
@@ -196,6 +205,13 @@ static void initialise_ui(void) {
   text_layer_set_font(s_time_min2, s_res_hoog_numbers);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_time_min2);
   
+  // s_weather
+  s_weather = text_layer_create(GRect(0, 7, 36, 13));
+  text_layer_set_background_color(s_weather, GColorClear);
+  text_layer_set_text_color(s_weather, font_color_pri);
+  text_layer_set_font(s_weather, s_res_scp);
+  layer_add_child(window_get_root_layer(s_window), (Layer *)s_weather);
+  
   // s_date_year = first part of a year (20)
   s_date_year = text_layer_create(GRect(50, 130, 46, 37));
   text_layer_set_background_color(s_date_year, GColorBlack);
@@ -228,7 +244,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_date_month);
   
   // s_ampm
-  s_ampm = text_layer_create(GRect(50, -4, 14, 14));
+  s_ampm = text_layer_create(GRect(50, -4, 14, 13));
   text_layer_set_background_color(s_ampm, GColorClear);
   text_layer_set_text_color(s_ampm, font_color_ter);
   text_layer_set_font(s_ampm, s_res_scp);
@@ -281,7 +297,7 @@ static void destroy_ui(void) {
   text_layer_destroy(s_time_hr2);
   text_layer_destroy(s_time_min);
   text_layer_destroy(s_time_min2);
-  text_layer_destroy(s_ampm);
+  text_layer_destroy(s_weather);
   text_layer_destroy(s_date_year);
   text_layer_destroy(s_date_year2);
   text_layer_destroy(s_date_day);
@@ -290,6 +306,7 @@ static void destroy_ui(void) {
   text_layer_destroy(s_date_day_v);
   text_layer_destroy(s_month_v);
   text_layer_destroy(s_year_v);
+  text_layer_destroy(s_ampm);
   text_layer_destroy(s_battery);
   fonts_unload_custom_font(s_res_hoog_numbers);
   fonts_unload_custom_font(s_res_hoog_numbers_36);
