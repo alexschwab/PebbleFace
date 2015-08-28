@@ -11,18 +11,24 @@
             {
                 "characterRegex": "[0-9]",
                 "file": "fonts/HOOG0555.TTF",
-                "name": "hoog_numbers_80",
+                "name": "hoog_numbers_36",
                 "type": "font"
             },
             {
                 "characterRegex": "[0-9]",
-                "file": "fonts/SourceCodePro-Regular.ttf",
-                "name": "SCP_numbers_80",
+                "file": "fonts/HOOG0555.TTF",
+                "name": "hoog_numbers_80",
                 "type": "font"
             },
             {
                 "file": "fonts/SourceCodePro-Regular.ttf",
                 "name": "SCP_12",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9]",
+                "file": "fonts/SourceCodePro-Regular.ttf",
+                "name": "SCP_numbers_24",
                 "type": "font"
             }
         ]
@@ -30,11 +36,10 @@
     "sdkVersion": "3",
     "shortName": "MinimalFace",
     "targetPlatforms": [
-        "aplite",
         "basalt"
     ],
     "uuid": "22e984f2-d372-4ecc-bc53-1d0c7e69c339",
-    "versionLabel": "0.1",
+    "versionLabel": "0.2",
     "watchapp": {
         "watchface": true
     }
