@@ -258,7 +258,7 @@ static void time_handler(struct tm *tick_time, TimeUnits units_changed)
 static void initialise_ui(void)
 {
   s_window = window_create();
-  window_set_background_color(s_window, Orange);
+  window_set_background_color(s_window, GColorWhite);
   #ifndef PBL_SDK_3
     window_set_fullscreen(s_window, true);
   #endif
