@@ -1,13 +1,76 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "KEY_ICON": 1,
+        "KEY_TEMPERATURE": 0
+    },
     "capabilities": [
         "location"
     ],
     "companyName": "Adion",
-    "longName": "MinimalFace",
+    "longName": "Three Corners",
     "projectType": "native",
     "resources": {
         "media": [
+            {
+                "file": "images/10n.png",
+                "name": "w10n",
+                "type": "png"
+            },
+            {
+                "file": "images/02n.png",
+                "name": "w02n",
+                "type": "png"
+            },
+            {
+                "file": "images/01n.png",
+                "name": "w01n",
+                "type": "png"
+            },
+            {
+                "file": "images/50d.png",
+                "name": "w50d",
+                "type": "png"
+            },
+            {
+                "file": "images/13d.png",
+                "name": "w13d",
+                "type": "png"
+            },
+            {
+                "file": "images/11d.png",
+                "name": "w11d",
+                "type": "png"
+            },
+            {
+                "file": "images/10d.png",
+                "name": "w10d",
+                "type": "png"
+            },
+            {
+                "file": "images/09d.png",
+                "name": "w09d",
+                "type": "png"
+            },
+            {
+                "file": "images/04d.png",
+                "name": "w04d",
+                "type": "png"
+            },
+            {
+                "file": "images/03d.png",
+                "name": "w03d",
+                "type": "png"
+            },
+            {
+                "file": "images/02d.png",
+                "name": "w02d",
+                "type": "png"
+            },
+            {
+                "file": "images/01d.png",
+                "name": "w01d",
+                "type": "png"
+            },
             {
                 "characterRegex": "[0-9]",
                 "file": "fonts/HOOG0555.TTF",
@@ -34,12 +97,12 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "MinimalFace",
+    "shortName": "3Corners",
     "targetPlatforms": [
         "basalt"
     ],
     "uuid": "73888609-56bc-49aa-9cf7-48be837beb24",
-    "versionLabel": "0.2",
+    "versionLabel": "0.5",
     "watchapp": {
         "watchface": true
     }

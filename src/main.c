@@ -1,6 +1,6 @@
 #include <pebble.h>
 #include "face_handler.h"
-  
+
 // forward declarations
 void handle_init(void);
 void handle_deinit(void);
