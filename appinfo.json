@@ -118,18 +118,6 @@
                 "name": "SCP_20",
                 "targetPlatforms": null,
                 "type": "font"
-            },
-            {
-                "characterRegex": "[0-9]",
-                "file": "fonts/HOOG0555.TTF",
-                "name": "hoog_numbers_36",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[0-9]",
-                "file": "fonts/HOOG0555.TTF",
-                "name": "hoog_numbers_80",
-                "type": "font"
             }
         ]
     },
