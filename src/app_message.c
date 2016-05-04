@@ -1,18 +1,20 @@
 #include <pebble.h>
 #include "app_message.h"
+#include "face_handler.h"
 
 #define KEY_TEMPERATURE 0
 #define KEY_ICON        1
 
 static TextLayer *s_weather_temp;
-       char       icon[8];
+       char       icon[7];
 
 static void inbox_received_callback(DictionaryIterator* it, void* context)
 {  
   static char temp[8];
   // Read first item
   Tuple *t = dict_read_first(it);
-
+  
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "-- inbox_received_callback --");
   // For all items
   while(t != NULL)
   {
@@ -21,10 +23,12 @@ static void inbox_received_callback(DictionaryIterator* it, void* context)
     {
     case KEY_TEMPERATURE:
       snprintf(temp, sizeof(temp), "%dF", (int)t->value->int32);
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "KEY_TEMPERATURE received");
       break;
     case KEY_ICON:
       snprintf(icon, sizeof(icon), "%s", t->value->cstring);
-      icon[7] = 1; // set done bit
+      icon_handler();
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "KEY_ICON recieved.");
       break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
@@ -41,11 +45,40 @@ static void inbox_dropped_callback(AppMessageResult reason, void* context)
   APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
 }
 
-static void outbox_failed_callback(DictionaryIterator* it, 
-                                   AppMessageResult reason,
-                                   void* context)
+static void outbox_failed_callback(DictionaryIterator* it, AppMessageResult reason, void* context)
 {
   APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+  
+  switch(reason)
+  {
+  case APP_MSG_SEND_TIMEOUT:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: Send Timeout.");
+    break;
+  case APP_MSG_BUSY:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: Busy");
+    break;
+  case APP_MSG_SEND_REJECTED:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: Send Rejected");
+    break;
+  case APP_MSG_OUT_OF_MEMORY:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: Out of Memory!");
+    break;
+  case APP_MSG_ALREADY_RELEASED:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: Already Released");
+    break;
+  case APP_MSG_BUFFER_OVERFLOW:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: Buffer Overflow");
+    break;
+  case APP_MSG_INTERNAL_ERROR:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: Internal Error");
+    break;
+  case APP_MSG_APP_NOT_RUNNING:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: App Not Running");
+    break;
+  default:
+    APP_LOG(APP_LOG_LEVEL_ERROR, "reason: unhandled case...");
+    break;
+  }
 }
 
 static void outbox_sent_callback(DictionaryIterator* it, void* context)
@@ -56,7 +89,6 @@ static void outbox_sent_callback(DictionaryIterator* it, void* context)
 void message_init(TextLayer* temp)
 {
   s_weather_temp = temp;
-  icon[7] = 0; // using last position as a done bit.
   // Register callbacks
   app_message_register_inbox_received(inbox_received_callback);
   app_message_register_inbox_dropped(inbox_dropped_callback);
@@ -74,6 +106,7 @@ void message_deinit(void)
 
 void pull_weather(void)
 {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Pulling weather...");
   // Begin dictionary
   DictionaryIterator *iter;
   app_message_outbox_begin(&iter);

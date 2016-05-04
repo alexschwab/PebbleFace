@@ -4,72 +4,120 @@
         "KEY_TEMPERATURE": 0
     },
     "capabilities": [
-        "location"
+        "location",
+        "configurable"
     ],
     "companyName": "Adion",
+    "enableMultiJS": false,
     "longName": "Three Corners",
     "projectType": "native",
     "resources": {
         "media": [
             {
+                "file": "images/bluetooth.png",
+                "name": "bluetooth_icon",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/bluetoothOff.png",
+                "name": "bluetooth_off",
+                "targetPlatforms": [
+                    "basalt",
+                    "chalk"
+                ],
+                "type": "bitmap"
+            },
+            {
                 "file": "images/10n.png",
                 "name": "w10n",
-                "type": "png"
-            },
-            {
-                "file": "images/02n.png",
-                "name": "w02n",
-                "type": "png"
-            },
-            {
-                "file": "images/01n.png",
-                "name": "w01n",
-                "type": "png"
-            },
-            {
-                "file": "images/50d.png",
-                "name": "w50d",
-                "type": "png"
+                "type": "bitmap"
             },
             {
                 "file": "images/13d.png",
                 "name": "w13d",
-                "type": "png"
-            },
-            {
-                "file": "images/11d.png",
-                "name": "w11d",
-                "type": "png"
-            },
-            {
-                "file": "images/10d.png",
-                "name": "w10d",
-                "type": "png"
-            },
-            {
-                "file": "images/09d.png",
-                "name": "w09d",
-                "type": "png"
-            },
-            {
-                "file": "images/04d.png",
-                "name": "w04d",
-                "type": "png"
-            },
-            {
-                "file": "images/03d.png",
-                "name": "w03d",
-                "type": "png"
-            },
-            {
-                "file": "images/02d.png",
-                "name": "w02d",
-                "type": "png"
+                "type": "bitmap"
             },
             {
                 "file": "images/01d.png",
                 "name": "w01d",
-                "type": "png"
+                "type": "bitmap"
+            },
+            {
+                "file": "images/01n.png",
+                "name": "w01n",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/02n.png",
+                "name": "w02n",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/09d.png",
+                "name": "w09d",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/02d.png",
+                "name": "w02d",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/10d.png",
+                "name": "w10d",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/03d.png",
+                "name": "w03d",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/50d.png",
+                "name": "w50d",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/04d.png",
+                "name": "w04d",
+                "type": "bitmap"
+            },
+            {
+                "file": "images/11d.png",
+                "name": "w11d",
+                "type": "bitmap"
+            },
+            {
+                "characterRegex": "[0-9]",
+                "file": "fonts/SquareNumbers",
+                "name": "SQUARENUM_32",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9]",
+                "file": "fonts/SquareNumbers",
+                "name": "SQUARENUM_64",
+                "type": "font"
+            },
+            {
+                "file": "fonts/SourceCodePro-Regular.ttf",
+                "name": "SCP_12",
+                "targetPlatforms": null,
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9]",
+                "file": "fonts/SourceCodePro-Regular.ttf",
+                "name": "SCP_numbers_24",
+                "targetPlatforms": null,
+                "type": "font"
+            },
+            {
+                "file": "fonts/SourceCodePro-Regular.ttf",
+                "name": "SCP_20",
+                "targetPlatforms": null,
+                "type": "font"
             },
             {
                 "characterRegex": "[0-9]",
@@ -81,17 +129,6 @@
                 "characterRegex": "[0-9]",
                 "file": "fonts/HOOG0555.TTF",
                 "name": "hoog_numbers_80",
-                "type": "font"
-            },
-            {
-                "file": "fonts/SourceCodePro-Regular.ttf",
-                "name": "SCP_12",
-                "type": "font"
-            },
-            {
-                "characterRegex": "[0-9]",
-                "file": "fonts/SourceCodePro-Regular.ttf",
-                "name": "SCP_numbers_24",
                 "type": "font"
             }
         ]

@@ -8,6 +8,6 @@ void message_deinit(void);
 
 void pull_weather(void);
 
-extern char icon[8];
+extern char icon[7];
 
 #endif
