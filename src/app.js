@@ -1,3 +1,5 @@
+var keys = require('message_keys');
+
 var xhrRequest = function (url, type, callback) 
                  {
                    var xhr = new XMLHttpRequest();
@@ -23,9 +25,9 @@ function locationSuccess(pos) {
       var icon = json.weather[0].icon;
       
       // Assemble dictionary using our keys
-      var dictionary = { "KEY_TEMPERATURE": temperature,
-                         "KEY_ICON": icon
-                       };
+      var dictionary = { };
+      dictionary[keys.TEMPERATURE] = temperature;
+      dictionary[keys.ICON] = icon;
 
       // Send to Pebble
       Pebble.sendAppMessage(dictionary,

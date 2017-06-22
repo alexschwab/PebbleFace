@@ -2,11 +2,7 @@
 #include "app_message.h"
 #include "face_handler.h"
 
-#define KEY_TEMPERATURE 0
-#define KEY_ICON        1
-
-static TextLayer *s_weather_temp;
-       char       icon[7];
+char icon[7];
 
 static void inbox_received_callback(DictionaryIterator* it, void* context)
 {  
@@ -19,20 +15,20 @@ static void inbox_received_callback(DictionaryIterator* it, void* context)
   while(t != NULL)
   {
     // Which key was received?
-    switch(t->key)
+    if (t->key == MESSAGE_KEY_TEMPERATURE)
     {
-    case KEY_TEMPERATURE:
-      snprintf(temp, sizeof(temp), "%dF", (int)t->value->int32);
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "KEY_TEMPERATURE received");
-      break;
-    case KEY_ICON:
+      snprintf(temp, sizeof(temp), "%d°", (int)t->value->int32);
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "MESSAGE_KEY_TEMPERATURE received");
+    }
+    else if (t->key == MESSAGE_KEY_ICON)
+    {
       snprintf(icon, sizeof(icon), "%s", t->value->cstring);
       icon_handler();
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "KEY_ICON recieved.");
-      break;
-    default:
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "MESSAGE_KEY_ICON recieved.");
+    }
+    else
+    {
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
-      break;
     }
     // Look for next item
     t = dict_read_next(it);
@@ -86,9 +82,8 @@ static void outbox_sent_callback(DictionaryIterator* it, void* context)
   APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
 }
 
-void message_init(TextLayer* temp)
+void message_init(void)
 {
-  s_weather_temp = temp;
   // Register callbacks
   app_message_register_inbox_received(inbox_received_callback);
   app_message_register_inbox_dropped(inbox_dropped_callback);
@@ -101,7 +96,7 @@ void message_init(TextLayer* temp)
 
 void message_deinit(void)
 {
-  
+  app_message_deregister_callbacks();
 }
 
 void pull_weather(void)

@@ -7,7 +7,7 @@ static Window *s_window;
 static GFont s_res_sqr_num;
 static GFont s_res_sqr_num_32;
 static GFont s_res_scp;
-static GFont s_res_scp_20;
+static GFont s_res_scp_18;
 static GBitmap *s_res_w01d; // day sunny
 static GBitmap *s_res_w01n; // night sunny
 static GBitmap *s_res_w02d; // day few clouds
@@ -26,13 +26,13 @@ static TextLayer *s_time_hr;
 static TextLayer *s_time_hr2;
 static TextLayer *s_time_min;
 static TextLayer *s_time_min2;
-static TextLayer *s_weather_temp;
+       TextLayer *s_weather_temp;
 static TextLayer *s_date_year;
 static TextLayer *s_date_year2;
 static TextLayer *s_date_day;
 static TextLayer *s_date_month;
-//static TextLayer *s_day_h;
-//static TextLayer *s_month_h;
+static TextLayer *s_day_h; //
+static TextLayer *s_month_h; //
 static TextLayer *s_day_v;
 static TextLayer *s_date_day_v;
 static TextLayer *s_month_v;
@@ -69,8 +69,8 @@ static void update_daily(void)
   static char date_year2[] = "15";
   static char date_day[]   = "01";
   static char date_month[] = "01";
-  //static char day_h[]      = "FRI";
-  //static char month_h[]    = "JAN";
+  static char day_h[]      = "FRI"; //
+  static char month_h[]    = "JAN"; //
   static char day_v[]      = "F\nR\nI";
   static char date_day_v[] = "0\n1";
   static char month_v[]    = "J\nA\nN";
@@ -90,22 +90,22 @@ static void update_daily(void)
     date_year2[1] = year_v[6] = buffer[3];
     
     strftime(buffer, sizeof(buffer), "%b", tick_time);
-    month_v[0] = buffer[0]; // month_h[0]
-    month_v[2] = buffer[1] - SPACE; // month_h[1]
-    month_v[4] = buffer[2] - SPACE; // month_h[2]
+    month_h[0] = month_v[0] = buffer[0]; // 
+    month_h[1] = month_v[2] = buffer[1] - SPACE; // 
+    month_h[2] = month_v[4] = buffer[2] - SPACE; //
     
     strftime(buffer, sizeof(buffer), "%a", tick_time);
-    day_v[0] = buffer[0]; // day_h[0]
-    day_v[2] = buffer[1] - SPACE; // day_h[1]
-    day_v[4] = buffer[2] - SPACE; // day_h[2]
+    day_h[0] = day_v[0] = buffer[0]; // 
+    day_h[1] = day_v[2] = buffer[1] - SPACE; // 
+    day_h[2] = day_v[4] = buffer[2] - SPACE; // 
   }
   
   text_layer_set_text(s_date_year, date_year);
   text_layer_set_text(s_date_year2, date_year2);
   text_layer_set_text(s_date_day, date_day);
   text_layer_set_text(s_date_month, date_month);
-//  text_layer_set_text(s_day_h, day_h);
-//  text_layer_set_text(s_month_h, month_h);
+  text_layer_set_text(s_day_h, day_h); //
+  text_layer_set_text(s_month_h, month_h); //
   text_layer_set_text(s_day_v, day_v);
   text_layer_set_text(s_date_day_v, date_day_v);
   text_layer_set_text(s_month_v, month_v);
@@ -287,7 +287,7 @@ static void time_handler(struct tm *tick_time, TimeUnits units_changed)
   }
 }
 
-static void initialise_ui(void)
+static void initialize_ui(void)
 {
   GFont bigNumbers, ltlNumbers, regText, bigText;
   
@@ -308,12 +308,12 @@ static void initialise_ui(void)
   s_res_sqr_num = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_SQUARENUM_64));
   s_res_sqr_num_32 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_SQUARENUM_32));
   s_res_scp = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_SCP_12));
-  s_res_scp_20 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_SCP_20));
+  s_res_scp_18 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_SCP_18));
   
   bigNumbers = s_res_sqr_num;
   ltlNumbers = s_res_sqr_num_32;
   regText = s_res_scp;
-  bigText = s_res_scp_20;
+  bigText = s_res_scp_18;
   //-- load image resources --
   s_res_w01d = gbitmap_create_with_resource(RESOURCE_ID_w01d);
   s_res_w01n = gbitmap_create_with_resource(RESOURCE_ID_w01n);
@@ -403,23 +403,23 @@ static void initialise_ui(void)
   text_layer_set_font(s_date_month, ltlNumbers);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_date_month);
   
-  /* looks ugly
+  // looks ugly
   // s_day_h = horizontal day listing
-  s_day_h = text_layer_create(GRect(0, 112, 46, 37));
+  s_day_h = text_layer_create(GRect(0, 124, 40, 27));
   text_layer_set_background_color(s_day_h, GColorClear);
   text_layer_set_text_color(s_day_h, s_colors->font_color_pri);
-  text_layer_set_text_alignment(s_day_h, GTextAlignmentRight);
+  text_layer_set_text_alignment(s_day_h, GTextAlignmentCenter);
   text_layer_set_font(s_day_h, bigText);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_day_h);
   
   // s_month_h = horizontal month listing
-  s_month_h = text_layer_create(GRect(0, 135, 46, 37));
+  s_month_h = text_layer_create(GRect(0, 143, 40, 27));
   text_layer_set_background_color(s_month_h, GColorClear);
   text_layer_set_text_color(s_month_h, s_colors->font_color_pri);
-  text_layer_set_text_alignment(s_month_h, GTextAlignmentRight);
+  text_layer_set_text_alignment(s_month_h, GTextAlignmentCenter);
   text_layer_set_font(s_month_h, bigText);
   layer_add_child(window_get_root_layer(s_window), (Layer *)s_month_h);
-  */
+  //
   
   // s_ampm
   s_ampm = text_layer_create(GRect(50, -4, 14, 13));
@@ -482,7 +482,7 @@ static void initialise_ui(void)
   //-- subscribing to events --
   tick_timer_service_subscribe(MINUTE_UNIT, time_handler);
   battery_state_service_subscribe(battery_handler);
-  message_init(s_weather_temp); // start weather service
+  message_init(); // start weather service
   bluetooth_connection_service_subscribe(bluetooth_handler);
   //-- setting face --
   update_all();
@@ -499,8 +499,8 @@ static void destroy_ui(void) {
   text_layer_destroy(s_date_year2);
   text_layer_destroy(s_date_day);
   text_layer_destroy(s_date_month);
-  //text_layer_destroy(s_day_h);
-  //text_layer_destroy(s_month_h);
+  text_layer_destroy(s_day_h); //
+  text_layer_destroy(s_month_h); //
   text_layer_destroy(s_day_v);
   text_layer_destroy(s_date_day_v);
   text_layer_destroy(s_month_v);
@@ -510,7 +510,7 @@ static void destroy_ui(void) {
   fonts_unload_custom_font(s_res_sqr_num);
   fonts_unload_custom_font(s_res_sqr_num_32);
   fonts_unload_custom_font(s_res_scp);
-  fonts_unload_custom_font(s_res_scp_20);
+  fonts_unload_custom_font(s_res_scp_18);
   bitmap_layer_destroy(s_weather_image);
   bitmap_layer_destroy(s_bluetooth_image);
   gbitmap_destroy(s_res_w01d);
@@ -538,7 +538,7 @@ static void handle_window_unload(Window* window) {
 
 void show_main_face(void)
 {
-  initialise_ui();
+  initialize_ui();
   window_set_window_handlers(s_window, (WindowHandlers) {
     .unload = handle_window_unload,
   });
